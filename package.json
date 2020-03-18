@@ -1,12 +1,18 @@
 {
   "name": "mead-notes-app",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "repository": "git@github.com:adoniramj/mead-notes-app.git",
   "author": "adoniramj <adoniramjvargas@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
   "dependencies": {
     "chalk": "2.4.1",
     "validator": "10.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
   }
 }
