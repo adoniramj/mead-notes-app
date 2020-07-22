@@ -1,5 +1,8 @@
-const fs = require('fs')
+// const add = require('./utils')
+// console.log(add(2,3))
 
-fs.writeFileSync('notes.txt', 'This file was created by node.js!\n')
+const notes = require('./notes')
 
-fs.appendFileSync('notes.txt', 'This is the second line')
+const note = notes()
+
+console.log(note)
