@@ -1,11 +1,17 @@
 // const add = require('./utils')
 // console.log(add(2,3))
-const validator = require('validator')
+// const validator = require('validator')
 
-const notes = require('./notes')
+// const notes = require('./notes')
 
-const note = notes()
+// const note = notes()
 
-console.log(note)
+// console.log(note)
 
-console.log(validator.isURL('https://mead.io'))
+// console.log(validator.isURL('https://mead.io'))
+
+const chalk = require('chalk')
+
+console.log(chalk.green.bold('Success!'))
+console.log(chalk.red.inverse('Success'))
+console.log(chalk.blue('Success...'))
