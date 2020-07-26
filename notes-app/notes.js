@@ -1,18 +1,11 @@
 const fs = require('fs')
 const chalk = require('chalk')
 
-const getNotes = function(){
-    return 'Your notes...'
-}
-
-const addNote = function(title,body){
+const addNote = (title,body) => {
     const notes = loadNotes()
 
-    const duplicateNotes = notes.filter(note => {
-        return note.title.toLowerCase() === title.toLowerCase()
-    })
-
-    if(duplicateNotes.length == 0){
+    const duplicateNote = notes.find(note => note.title = title)
+    if(!duplicateNote){
         notes.push({
             title,
             body})
@@ -22,24 +15,37 @@ const addNote = function(title,body){
     }
 
     saveNotes(notes)
-
 }
 
-const removeNote = function(title){
+const removeNote = title => {
     const notes = loadNotes()
-    const updateNotes = notes.filter(note => {
-        return note.title.toLowerCase() != title.toLowerCase()
-    })
+    const updateNotes = notes.filter(note => note.title.toLowerCase() != title.toLowerCase())
     if (notes.length > updateNotes.length){
         saveNotes(updateNotes)
         console.log(chalk.green('Note removed!'))
     } else {
         console.log(chalk.red('No notes were removed'))
     }
-
 }
 
-const loadNotes = function() {
+const readNote = title => {
+    const notes = loadNotes()
+    const note = notes.find(note => note.title.toLowerCase() === title.toLowerCase())
+    if(note){
+        console.log(`Title: ${note.title}`)
+        console.log(`Description: ${note.body}`)
+    } else {
+        console.log(chalk.red('There is no note with that title!'))
+    }
+}
+
+const listNotes = () => {
+    const notes = loadNotes()
+    console.log(chalk.green('Here are your notes:'))
+    notes.forEach(note => console.log(note.title));
+}
+
+const loadNotes = () => {
     try {
         const dataBuffer = fs.readFileSync('notes.json')
         const dataJSON = dataBuffer.toString()
@@ -49,9 +55,9 @@ const loadNotes = function() {
     }
 }
 
-const saveNotes = function(notes) {
+const saveNotes = notes => {
     const notesString = JSON.stringify(notes)
     fs.writeFileSync('notes.json',notesString)
 }
 
-module.exports = {getNotes, addNote, removeNote}
+module.exports = {getNotes, addNote, removeNote, listNotes, readNote}
