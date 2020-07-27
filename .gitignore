@@ -1,1 +1,3 @@
 /notes-app/node_modules
+/.vscode
+/notes-app/.eslintrc.json

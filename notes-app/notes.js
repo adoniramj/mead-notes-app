@@ -1,6 +1,8 @@
 const fs = require('fs')
 const chalk = require('chalk')
 
+
+
 const addNote = (title,body) => {
     const notes = loadNotes()
 
@@ -60,4 +62,4 @@ const saveNotes = notes => {
     fs.writeFileSync('notes.json',notesString)
 }
 
-module.exports = {getNotes, addNote, removeNote, listNotes, readNote}
+module.exports = {addNote, removeNote, listNotes, readNote}
