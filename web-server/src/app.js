@@ -56,11 +56,11 @@ app.get('/weather', (req, res) => {
         return res.send({ error : 'Address not provided!'})
     }
     // executing geocode
-    geocode.geocode(address, (error, {lat, long, location} = {}) => {
+    geocode.geocode(address, (error, {lat, long, location} = {}) => { //start callback
         if (error) {
             return res.send({ error })
         }
-        weather.weather(lat, long , (error, forecast) => {
+        weather.weather(lat, long , (error, forecast) => { //inner callback
             if(error){
                 return res.send({ error })
             }
@@ -76,8 +76,8 @@ app.get('/weather', (req, res) => {
                 weather : weather_descriptions[0],
                 winds
             })
-        }) 
-    })
+        }) // end inne callback
+    }) //end callback
 })
 
 app.get('/products', (req,res) => {

@@ -1,15 +1,28 @@
+const weatherForm = document.querySelector('form')
+const search = document.querySelector('input')
+const messageOne = document.querySelector('#message-1')
+const messageTwo = document.querySelector("#message-2")
+messageOne.textContent = ''
+messageTwo.textContent = ''
 
-
-fetch('http://localhost:3000/weather?address=Miami').then(response => response.json()).then(data => {
-        if(data.error) {
-            console.log(data.error)
-        } else {
-            console.log(data)
-        }
+weatherForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const location = search.value
+    messageTwo.textContent = 'loading data'
+    messageOne.textContent = ''
+    fetch('http://localhost:3000/weather?address=' + location).then((response) => {
+        response.json().then((data) => {
+            if(data.error) {
+                messageTwo.textContent = data.error
+            }else {
+                const {location, temperature, weather, winds} = data
+                const message = `The current temperature is ${temperature} degrees, winds from the ${winds}, and ${weather.toLowerCase()} skies`
+                messageOne.textContent = `Location: ${location}`
+                messageTwo.textContent = message
+                search.value = ''
+            }
+        })
     })
+    
 
-
-fetch('https://api.mapbox.com/geocoding/v5/mapbox.places/London.json?access_token=pk.eyJ1IjoiYWRvbmlyYW1qdmFyZ2FzIiwiYSI6ImNrOGt2NHVjajAyb2UzbGwzY202cm03NWIifQ.oOgGtyBlvosKgJx2TN8oNw&limit=1').
-then(response => response.json()).then(data => {
-    console.log(data.features[0].geometry)
 })
