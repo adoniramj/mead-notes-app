@@ -1,6 +1,10 @@
 const path = require('path')
+
 const express = require('express')
 const hbs = require('hbs')
+
+const geocode = require('./utils/geocode')
+const weather = require('./utils/weather')
 
 const app = express()
 
@@ -9,19 +13,20 @@ const publicDirectoryPath = path.join(__dirname,'../public')
 const viewsPath = path.join(__dirname,'..','/templates','/views')
 const partialsPath = path.join(__dirname,'..','/templates','/partials')
 
+
 // Setup handlebars engine and views location
 app.set('view engine', 'hbs')
 app.set('views', viewsPath)
 hbs.registerPartials(partialsPath)
 
 // Setup static directory to serve
-app.use(express.static(publicDirectoryPath)) //searches the public folder for a match
+app.use(express.static(publicDirectoryPath)) //searches public folder for a match
 
-app.get('', (req,res) => {
+app.get('/', (req,res) => {
     let time = Date.now()
     res.render('index',{
         message : 'Hello',
-        title: 'Hi',
+        title: 'Weather',
         name: 'Adoniram',
         time,
         info : 'Copyright something'
@@ -45,23 +50,49 @@ app.get('/help', (req,res) => {
     })
 })
 
-app.get('/weather', (req, res) => {
-    res.send({
-        city : 'Miami',
-        forecast : 'cloudy'
+app.get('/weather', (req, res) => { 
+    address = req.query.address
+    if (!address) {
+        return res.send({ error : 'Address not provided!'})
+    }
+    // executing geocode
+    geocode.geocode(address, (error, {lat, long, location} = {}) => {
+        if (error) {
+            return res.send({ error })
+        }
+        weather.weather(lat, long , (error, forecast) => {
+            if(error){
+                return res.send({ error })
+            }
+            const { temperature, 
+                    weather_descriptions,
+                    wind_dir:winds } = forecast
+            //final response
+            res.send({
+                lat,
+                long,
+                location,
+                temperature,
+                weather : weather_descriptions[0],
+                winds
+            })
+        }) 
     })
 })
 
-app.get('/html', (req,res) => {
-    res.send('<h1>Some html</h1>')
+app.get('/products', (req,res) => {
+    if(!req.query.search){
+        return res.send({error : 'You must provide a search term'})
+    }
+    res.send({ products : []})
 })
+
 
 app.get('/help/*', (req, res) => {
     res.render('404', {
         message : 'No help'
     })
 })
-
 
 app.get('*', (req, res) => {
     res.render('404', {
