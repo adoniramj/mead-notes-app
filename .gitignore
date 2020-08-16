@@ -1,6 +1,7 @@
-/notes-app/node_modules
+node_modules
 /.vscode
 /notes-app/.eslintrc.json
 api.txt
 /weather-app/node_modules
 /web-server/node_modules
+references/
