@@ -7,24 +7,25 @@ messageTwo.textContent = ''
 
 weatherForm.addEventListener('submit', (e) => {
 	e.preventDefault()
-	const location = search.value
+	const loc = search.value
 	messageTwo.textContent = 'loading data'
 	messageOne.textContent = ''
 
-	const retrieveTemp = async (location) => {
-		const response = await fetch('http://localhost:3000/weather?address=' + location)
+	const retrieveTemp = async (loc) => {
+		const response = await fetch('http://localhost:3000/weather?address=' + loc)
 		const data = await response.json()
 		if (data.error) {
 			return messageTwo.textContent = data.error
 		}
 
-		const {location, temperature, weather, winds} = data 
+		const {temperature, weather, winds} = data 
+		const { location } = data
 		const message = `The current temperature is ${temperature} degrees, winds from the ${winds}, and ${weather.toLowerCase()} skies`
 		messageOne.textContent = `Location: ${location}`
 		messageTwo.textContent = message
 		search.value = ''
 	}
 
-	retrieveTemp(location)
+	retrieveTemp(loc)
 })
 
