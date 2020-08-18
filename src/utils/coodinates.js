@@ -9,7 +9,7 @@ const coordinates = async (address, callback) => {
   //   '.json?access_token=pk.eyJ1IjoiYWRvbmlyYW1qdmFyZ2FzIiwiYSI6ImNrOGt2NHVjajAyb2UzbGwzY202cm03NWIifQ.oOgGtyBlvosKgJx2TN8oNw&limit=1'
 
   let url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' +
-  encodeURIComponent(address) + '.json?access_token=' + encodeURIComponent(keys.mapBox) + '&limit=1'
+  encodeURIComponent(address) + '.json?access_token=' + keys.mapBox + '&limit=1'
 
   try {
     const response = await axios.get(url)
