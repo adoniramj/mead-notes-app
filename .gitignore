@@ -6,4 +6,5 @@ api.txt
 /web-server/node_modules
 references/
 src/config/dev.js
-
+src/utils/geocode.js
+src/utils/weather.js
