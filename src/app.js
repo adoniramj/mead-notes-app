@@ -5,6 +5,9 @@ const hbs = require('hbs')
 
 const geocode = require('./utils/geocode')
 const weather = require('./utils/weather')
+const coordinates = require('./utils/coodinates')
+const weatherRetrival = require('./utils/weatherRetrival')
+const { response } = require('express')
 
 const app = express()
 
@@ -56,27 +59,18 @@ app.get('/weather', (req, res) => {
 	if (!address) {
 		return res.send({ error : 'Address not provided!'})
 	}
-	// executing geocode
-	geocode.geocode(address, (error, {lat, long, location} = {}) => { //start callback
-		if (error) {
+	coordinates(address, (error,lat, long, place_name) => {
+		if(error){
 			return res.send({ error })
-		}
-		weather.weather(lat, long , (error, forecast) => { //inner callback
+		} 
+		weatherRetrival(lat,long, (error, temperature, weather_descriptions, winds) => {
 			if(error){
 				return res.send({ error })
 			}
-			const { temperature, weather_descriptions, wind_dir:winds } = forecast //destructuring
-			//final response
-			res.send({
-				lat,
-				long,
-				location,
-				temperature,
-				weather : weather_descriptions[0],
-				winds
-			})
-		}) // end inner callback
-	}) //end callback
+			res.send({lat, long, location : place_name, temperature, weather : weather_descriptions, winds})
+		})
+		
+	})
 })
 
 app.get('/products', (req,res) => {
