@@ -2,6 +2,7 @@ const coordinates = require('../utils/coodinates')
 const weatherRetrival = require('../utils/weatherRetrival')
 
 
+
 module.exports = app => {
   app.get('/', (req, res) => {
     let time = Date.now()

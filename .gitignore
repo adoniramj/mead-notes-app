@@ -5,3 +5,5 @@ api.txt
 /weather-app/node_modules
 /web-server/node_modules
 references/
+src/config/dev.js
+

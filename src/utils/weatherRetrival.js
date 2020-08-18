@@ -2,10 +2,11 @@
 // the lat long come from coodinates.js
 
 const axios = require('axios')
+const keys = require('../config/keys')
 
 const weatherRetrival = async (lat, long, callback) =>{
-  const url  = 'http://api.weatherstack.com/current?access_key=77df5d14260314b81e60242f460d97dc&query='+ lat +','+ long +'&units=f'
-
+  const url  = 'http://api.weatherstack.com/current?access_key=' + keys.weatherStack +'&query='+ lat +','+ long +'&units=f'
+ 
   try {
     const response = await axios.get(url)
     const { temperature, weather_descriptions, wind_dir:winds }  = response.data.current
